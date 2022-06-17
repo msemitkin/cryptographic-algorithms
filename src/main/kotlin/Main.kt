@@ -2,7 +2,7 @@ import algoriths.cryptographic.decrypt
 import algoriths.cryptographic.encrypt
 
 fun main() {
-    val textToEncrypt = "the quick brown fox jumps over 13 lazy dogs."
+    val textToEncrypt = "The Quick Brown fox jumps over 13 lazy dogs."
     val encryptionKey = "cryptii"
 
     val encrypted = encrypt(textToEncrypt, encryptionKey)

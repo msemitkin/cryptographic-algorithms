@@ -40,23 +40,35 @@ fun decrypt(encryptedText: String, encryptionKey: String): String {
     return decryptedWords.joinToString(separator = " ")
 }
 
-private fun Char.encrypt(key: Char) =
-    with(alphabetCode()) {
-        if (this != -1) ENCRYPTION_MATRIX[this][key.alphabetCode()] else throw IllegalArgumentException()
+private fun Char.encrypt(key: Char): Char {
+    val charCode = this.lowercaseChar().alphabetCode()
+    return if (charCode != -1) {
+        val encryptedCharacter = ENCRYPTION_MATRIX[charCode][key.alphabetCode()]
+        if (this.isUpperCase()) encryptedCharacter.uppercaseChar() else encryptedCharacter
+    } else {
+        throw IllegalArgumentException()
     }
+}
 
-private fun Char.decrypt(key: Char) =
-    with(key.alphabetCode()) {
-        val line = ENCRYPTION_MATRIX[this]
-        val indexOfRealCharacter = line.indexOf(this@decrypt)
-        if (indexOfRealCharacter != -1) ALPHABET[indexOfRealCharacter] else throw IllegalArgumentException()
-    }
+private fun Char.decrypt(key: Char): Char {
+    val keyCode = key.alphabetCode()
+    val line = ENCRYPTION_MATRIX[keyCode]
+    val indexOfRealCharacter = line.indexOf(this.lowercaseChar())
+    if (indexOfRealCharacter != -1) {
+        val decryptedCharacter = ALPHABET[indexOfRealCharacter]
+        return if (this.isUpperCase()) decryptedCharacter.uppercaseChar() else decryptedCharacter
+    } else
+        throw IllegalArgumentException()
+}
 
 private fun Char.alphabetCode() = ALPHABET.indexOf(this)
-
 
 private fun <T> List<T>.rotate(distance: Int): List<T> {
     val list = ArrayList(this)
     rotate(list, distance)
     return list
 }
+
+private fun Char.uppercaseChar() = this.uppercase()[0]
+
+private fun Char.lowercaseChar() = this.lowercase()[0]
