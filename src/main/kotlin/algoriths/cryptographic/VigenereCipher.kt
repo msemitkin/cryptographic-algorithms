@@ -48,3 +48,5 @@ private fun <T> List<T>.rotate(distance: Int): List<T> {
     rotate(list, distance)
     return list
 }
+
+//TODO indexes should not increment when not supported symbol found
